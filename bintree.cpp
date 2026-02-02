@@ -263,3 +263,47 @@ BinTree::Node* BinTree::arrayToBSTreeHelper(NodeData* arr[],
 
     return newNode;
 }
+
+// ---------------------------- copyHelper ------------------------------------
+// Preconditions: None
+// Postconditions: Returns deep copy of the subtree rooted at otherNode.
+BinTree::Node* BinTree::copyHelper(const Node* otherNode) {
+    if (otherNode == NULL)
+        return NULL;
+
+    Node* newNode = new Node;
+    newNode->data = new NodeData(*otherNode->data);
+    newNode->left = copyHelper(otherNode->left);
+    newNode->right = copyHelper(otherNode->right);
+
+    return newNode;
+}
+
+
+// ------------------------- displaySideways ----------------------------------
+// Preconditions: None
+// Postconditions: Displays tree rotated 90 degrees without modifying it.
+void BinTree::displaySideways() const {
+    sideways(root, 0);
+}
+
+
+// ------------------------------ sideways ------------------------------------
+// Helper function for displaySideways.
+// Preconditions: None
+// Postconditions: Displays subtree structure with indentation.
+void BinTree::sideways(Node* current, int level) const {
+    if (current != NULL) {
+        level++;
+        sideways(current->right, level);
+
+        // indent 4 spaces per level
+        for (int i = level; i >= 0; i--) {
+            cout << "    ";
+        }
+
+        cout << *current->data << endl;
+
+        sideways(current->left, level);
+    }
+}
